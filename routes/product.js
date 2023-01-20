@@ -15,7 +15,16 @@ const saveProduct = async (product) => {
 
 const uploadImages = async (files) => {
   const imagePromises = files.map(async file => {
-    return await cloudinary.uploader.upload(file.buffer, { public_id: file.originalname });
+    return await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream({ public_id: file.originalname }, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+      file.stream.pipe(stream);
+    });
   });
   const imageResults = await Promise.all(imagePromises);
   return imageResults.map(result => result.url);
