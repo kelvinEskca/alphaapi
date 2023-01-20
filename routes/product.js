@@ -37,6 +37,15 @@ router.post("/", verifyTokenAdmin, upload.array("image"), async (req, res) => {
         urls.push(newPath);
         fs.unlinkSync(path)
       }
+      res.status(200).json({
+        data:urls,
+        messag:"Image Uploaded Successfully"
+      })
+    }
+    else{
+      res.status(405).json({
+        err:"Image Upload Failed"
+      })
     }
     const newProduct = {...req.body, image: imageUrls, sizes: sizesArray, colors: colorsArray};
     const savedProduct = await saveProduct(newProduct);
