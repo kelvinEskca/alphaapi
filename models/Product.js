@@ -5,7 +5,16 @@ const productSchema = new mongoose.Schema(
     name: { type: String, required: true },
     desc: { type: String, required: true },
     category: { type: String, required: true },
-    image: { type: Array, required: true },
+    image: { 
+      public_id:{
+        type:String,
+        required:true,
+      },
+      url:{
+        type:String,
+        required:true
+      }
+    },
     sizes: { type: Array, required: true },
     colors: { type: Array },
     quantity: { type: Number, default: 1 },
